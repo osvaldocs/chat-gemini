@@ -5,15 +5,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const messages = document.getElementById('messages');
 
   // Mensaje de bienvenida
-  const welcome = document.createElement('p');
-  welcome.innerHTML = '<strong>Gemini:</strong> ¡Bienvenido, coder! 👋';
-  messages.appendChild(welcome);
+  addMsg('Gemini', '¡Bienvenido, coder! 👋');
 
-  // Función para agregar mensajes al chat
+  // Función para agregar mensajes al chat con burbujas
   function addMsg(who, text) {
-    const p = document.createElement('p');
-    p.innerHTML = `<strong>${who}:</strong> ${text}`;
-    messages.appendChild(p);
+    const div = document.createElement('div');
+    div.textContent = text;
+
+    if (who.toLowerCase() === 'vos') {
+      div.className = 'user-msg';
+    } else if (who.toLowerCase() === 'gemini') {
+      div.className = 'bot-msg';
+    } else {
+      div.className = 'bot-msg'; // fallback
+    }
+
+    messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
   }
 
@@ -47,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const reply = await sendMessage(text);
       addMsg('Gemini', reply);
     } catch (err) {
-      addMsg('Sistema', 'Hubo un error. Revisá la consola.');
+      addMsg('Sistema', '⚠️ Hubo un error. Revisá la consola.');
       console.error(err);
     }
   });
