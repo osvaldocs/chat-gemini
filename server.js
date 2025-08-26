@@ -17,6 +17,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // 🚀 Ruta de chat
 app.post("/chat", async (req, res) => {
+   console.log("Body recibido:", req.body);
   try {
     const { message } = req.body;
 
@@ -34,6 +35,7 @@ app.post("/chat", async (req, res) => {
       ]
     });
 
+    console.log("Respuesta cruda:", result.response);
     res.json({ reply: result.response.text() });
   } catch (err) {
     console.error(err);
